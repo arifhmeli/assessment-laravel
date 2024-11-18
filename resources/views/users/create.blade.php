@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create User</title>
-</head>
-<body>
+@extends('layouts.app') {{-- Extending the base layout --}}
+
+@section('content') {{-- Start of the content section --}}
     <h1>Create User</h1>
 
     {{-- Display Validation Errors --}}
@@ -60,5 +55,4 @@
 
     <br>
     <a href="{{ route('users.index') }}">Go to Table Page</a>
-</body>
-</html>
+@endsection {{-- End of the content section --}}
