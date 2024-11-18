@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -16,14 +17,14 @@ class UserController extends Controller
     // Handle the form submission and store data
     public function store(Request $request)
     {
-        // Validate the incoming data
+        // Validate the incoming data, with a simple check for unique email (including soft-deleted users)
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email', // Ensure the email is unique
             'password' => 'required|string|min:8',
             'gender' => 'required|in:Male,Female',
             'birthday' => 'required|date',
-            'status_active' => 'nullable|boolean', // Accepts true or false, or null
+            'status_active' => 'required|in:0,1',
         ]);
 
         // Create the user record
@@ -33,11 +34,11 @@ class UserController extends Controller
             'password' => bcrypt($request->password), // Hash the password
             'gender' => $request->gender,
             'birthday' => $request->birthday,
-            'status_active' => $request->has('status_active'), // This will return true or false
+            'status_active' => $request->status_active, // Directly use the value (0 or 1)
         ]);
 
-        // Redirect to the table page or show a success message
-        return redirect()->route('users.index');
+        // Redirect to the table page with a success message
+        return redirect()->route('users.index')->with('success', 'User created successfully');
     }
 
     public function index()
@@ -50,7 +51,7 @@ class UserController extends Controller
         
     }
 
-    public function destroy(User $user)
+        public function destroy(User $user)
     {
         // Soft delete the user
         $user->delete();

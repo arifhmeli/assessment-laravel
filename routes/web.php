@@ -14,3 +14,4 @@ Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 // Route to handle soft delete (DELETE request)
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.delete');
+

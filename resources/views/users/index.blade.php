@@ -3,6 +3,11 @@
         {{ session('success') }}
     </div>
 @endif
+@if (session('success'))
+    <div style="color: green;">
+        {{ session('success') }}
+    </div>
+@endif
 
 <h1>Users Index</h1>
 <a href="{{ route('users.create') }}">Create New User</a>
@@ -30,10 +35,10 @@
                 <td>{{ $user->status_active ? 'Active' : 'Inactive' }}</td>
                 <td>
                     <!-- Soft Delete button -->
-                    <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Delete</button>
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                     </form>
                 </td>
             </tr>
