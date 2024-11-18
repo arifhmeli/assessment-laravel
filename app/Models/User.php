@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes; // Add this line
+use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class User extends Model
 {
-    use HasFactory, SoftDeletes; // Add SoftDeletes trait
+    use HasFactory, SoftDeletes; 
 
-    // Allow mass assignment for the specified fields
     protected $fillable = [
         'name', 'email', 'password', 'gender', 'birthday', 'status_active',
     ];
 
-    protected $dates = ['deleted_at']; // This ensures the 'deleted_at' field is treated as a Carbon instance
+    protected $dates = ['deleted_at']; // To ensure'deleted_at' field is treated as a Carbon instance
 }
