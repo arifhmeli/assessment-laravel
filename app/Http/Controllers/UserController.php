@@ -43,12 +43,11 @@ class UserController extends Controller
 
     public function index()
     {
-        // Fetch active users with pagination (change 10 to whatever number you want per page)
-        $users = User::where('status_active', 1)->paginate(10);
-
-        // Return the view with the users data
-        return view('users.index', compact('users'));
+        // Fetch users from the database
+        $users = User::all();
         
+        // Return the view for the table page with the users data
+        return view('users.index', compact('users'));
     }
 
         public function destroy(User $user)

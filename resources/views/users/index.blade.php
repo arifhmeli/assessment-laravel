@@ -1,51 +1,52 @@
 @extends('layouts.app') {{-- Extending the base layout --}}
 
 @section('content') {{-- Start of the content section --}}
-    @if (session('success'))
-        <div style="color: green;">
-            {{ session('success') }}
+    <div class="flex items-center justify-center min-h-screen px-4 py-8">
+        <div class="bg-white p-6 rounded-lg shadow-md max-w-full w-full">
+            <!-- Title and Button at the top -->
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-semibold">User List</h1>
+                <a href="{{ route('users.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Create New User</a>
+            </div>
+
+            <!-- Table to display users -->
+            <table class="min-w-full table-auto border-collapse mb-6">
+                <thead>
+                    <tr>
+                        <th class="border px-4 py-2">ID</th>
+                        <th class="border px-4 py-2">Name</th>
+                        <th class="border px-4 py-2">Email</th>
+                        <th class="border px-4 py-2">Gender</th>
+                        <th class="border px-4 py-2">Birthday</th>
+                        <th class="border px-4 py-2">Created At</th>
+                        <th class="border px-4 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td class="border px-4 py-2">{{ $user->id }}</td>
+                            <td class="border px-4 py-2">{{ $user->name }}</td>
+                            <td class="border px-4 py-2">{{ $user->email }}</td>
+                            <td class="border px-4 py-2">{{ $user->gender }}</td>
+                            <td class="border px-4 py-2">
+                                {{ \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ \Carbon\Carbon::parse($user->created_at)->format('d M Y, h:i A') }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                <!-- Soft delete form -->
+                                <form action="{{ route('users.delete', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    @endif
-
-    <h1>Users Index</h1>
-    <a href="{{ route('users.create') }}">Create New User</a>
-
-    <h1>Users List</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Birthday</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->gender }}</td>
-                    <td>{{ \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') }}</td>
-                    <td>{{ $user->status_active ? 'Active' : 'Inactive' }}</td>
-                    <td>
-                        <!-- Soft Delete button -->
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <!-- Display pagination links -->
-    <div>
-        {{ $users->links() }}
     </div>
 @endsection {{-- End of the content section --}}
