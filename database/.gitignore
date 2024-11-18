@@ -1,0 +1,30 @@
+# Laravel specific
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.env.*.backup
+.phpunit.result.cache
+.vscode
+.idea
+.DS_Store
+
+# Laravel 9 or later specific
+/public/hot
+/public/mix-manifest.json
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/cache/data/*
+
+# IDE specific
+.idea
+.vscode
+
+# Composer and NPM
+composer.lock
+package-lock.json
+
+# System files
+Thumbs.db
+ehthumbs.db
